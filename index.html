@@ -14,6 +14,7 @@
     </style>
   </head>
   <body>
+    <h2>http://i.imgur.com/Aaxul6P.gif</h2>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
@@ -30,7 +31,32 @@
     return false;
   });
   socket.on('chat message', function(msg){
-    $('#messages').append($('<li>').text(msg));
+    
+    if(msg.substring(0,4) == "http")
+    {
+      console.info("Is a general link let me check...");
+      console.info("format : " + msg.substring(msg.length-3,msg.length));
+
+      if(msg.substring(msg.length-3,msg.length) == "gif")
+      {
+        console.info("Is an img");
+        msg="<li><img src=\'"+msg+"\'><li>";
+      }
+
+      else
+      {
+        console.info("Is a Text link");
+        msg= "<li><a href=\'"+msg+"\'>"+msg+"</a><li>";
+      }
+
+      $('#messages').append(msg);
+    }
+
+    else
+    {
+      $('#messages').append($('<li>').text(nick + ":" +msg));
+    }
+    //alert(msg);
   });
 </script>
 </html>
